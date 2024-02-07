@@ -47,6 +47,14 @@ async function run() {
       const result = await donationListCollection.insertOne(req.body);
       res.send(result);
     })
+    app.get("/getUserDonation/:email", async (req, res) => {
+      const list = donationListCollection.find(req.params);
+      const listResult = await list.toArray();
+      const all = donationCollection.find({});
+      const allResult = await all.toArray();
+      const result = allResult.filter(r => listResult.find(l => l.title === r.title))
+      res.send(result);
+    })
 
   } finally {
 

@@ -28,6 +28,7 @@ async function run() {
     })
 
     const donationCollection = client.db("donation").collection("allDonation");
+    const donationListCollection = client.db("donation").collection("donationList");
 
     app.get("/getAllDonation", async (req, res) => {
       const query = {};
@@ -40,6 +41,10 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await donationCollection.findOne(query);
+      res.send(result);
+    })
+    app.post("/postDonation", async (req, res) => {
+      const result = await donationListCollection.insertOne(req.body);
       res.send(result);
     })
 

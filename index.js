@@ -69,6 +69,10 @@ async function run() {
       const result = await userCollection.findOne(req.params);
       res.send(result);
     })
+    app.post("/createDonation", async (req, res) => {
+      const result = await donationCollection.insertOne(req.body);
+      res.send(result);
+    })
 
   } finally {
 

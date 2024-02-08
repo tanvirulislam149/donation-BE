@@ -29,6 +29,7 @@ async function run() {
 
     const donationCollection = client.db("donation").collection("allDonation");
     const donationListCollection = client.db("donation").collection("donationList");
+    const userCollection = client.db("donation").collection("user");
 
     app.get("/getAllDonation", async (req, res) => {
       const query = {};
@@ -59,6 +60,14 @@ async function run() {
       const list = donationListCollection.find(req.params).sort({ "_id": -1 });
       const listResult = await list.toArray();
       res.send(listResult);
+    })
+    app.post("/postUser", async (req, res) => {
+      const result = await userCollection.insertOne(req.body);
+      res.send(result);
+    })
+    app.get("/checkAdmin/:email", async (req, res) => {
+      const result = await userCollection.findOne(req.params);
+      res.send(result);
     })
 
   } finally {

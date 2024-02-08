@@ -82,6 +82,16 @@ async function run() {
       const result = await donationCollection.deleteOne({ _id: new ObjectId(req.params.id) });
       res.send(result);
     })
+    app.get("/getAllUser", async (req, res) => {
+      const cursor = userCollection.find({});
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
+    app.patch("/makeAdmin/:id", async (req, res) => {
+      const result = await userCollection.updateOne({ _id: new ObjectId(req.params.id) }, { $set: { role: "admin" } });
+      res.send(result);
+    })
 
   } finally {
 

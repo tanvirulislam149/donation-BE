@@ -78,6 +78,10 @@ async function run() {
       const result = await donationCollection.updateOne({ _id: new ObjectId(req.params.id) }, { $set: req.body });
       res.send(result);
     })
+    app.delete("/deleteDonation/:id", async (req, res) => {
+      const result = await donationCollection.deleteOne({ _id: new ObjectId(req.params.id) });
+      res.send(result);
+    })
 
   } finally {
 

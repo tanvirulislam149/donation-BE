@@ -74,6 +74,11 @@ async function run() {
       res.send(result);
     })
 
+    app.put("/updateDonation/:id", async (req, res) => {
+      const result = await donationCollection.updateOne({ _id: new ObjectId(req.params.id) }, { $set: req.body });
+      res.send(result);
+    })
+
   } finally {
 
   }

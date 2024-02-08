@@ -131,6 +131,18 @@ async function run() {
       const totalResult = await totalCursor.toArray();
       res.send(totalResult)
     })
+    app.get("/allDonationStat", async (req, res) => {
+      const totalCursor = donationListCollection.aggregate([
+        {
+          $group: {
+            _id: "$title",
+            totalMoney: { $sum: '$money' }
+          }
+        }]
+      );
+      const totalResult = await totalCursor.toArray();
+      res.send(totalResult)
+    })
 
   } finally {
 

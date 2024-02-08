@@ -118,6 +118,19 @@ async function run() {
       const result = [userMoney, totalMoney];
       res.send(result);
     })
+    app.get("/myDonations/:email", async (req, res) => {
+      const totalCursor = donationListCollection.aggregate([
+        { $match: { email: req.params.email } },
+        {
+          $group: {
+            _id: "$title",
+            totalMoney: { $sum: '$money' }
+          }
+        }]
+      );
+      const totalResult = await totalCursor.toArray();
+      res.send(totalResult)
+    })
 
   } finally {
 

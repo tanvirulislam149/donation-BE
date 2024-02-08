@@ -48,12 +48,17 @@ async function run() {
       res.send(result);
     })
     app.get("/getUserDonation/:email", async (req, res) => {
-      const list = donationListCollection.find(req.params);
+      const list = donationListCollection.find(req.params).sort({ "_id": -1 });
       const listResult = await list.toArray();
-      const all = donationCollection.find({});
+      const all = donationCollection.find({}).sort({ "_id": -1 });
       const allResult = await all.toArray();
       const result = allResult.filter(r => listResult.find(l => l.title === r.title))
-      res.send(result);
+      res.send(result.splice(0, 4));
+    })
+    app.get("/getUserAllDonation/:email", async (req, res) => {
+      const list = donationListCollection.find(req.params).sort({ "_id": -1 });
+      const listResult = await list.toArray();
+      res.send(listResult);
     })
 
   } finally {
